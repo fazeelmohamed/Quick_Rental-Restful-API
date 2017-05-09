@@ -53,7 +53,7 @@ public class DriverController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<User> addDriver(@RequestBody User user){
         User persistUser = userService.addUser(user);
-        logger.debug("Added:: " + persistUser);
+        logger.debug("Added: " + persistUser);
         return new ResponseEntity<User>(persistUser,HttpStatus.CREATED);
     }
 

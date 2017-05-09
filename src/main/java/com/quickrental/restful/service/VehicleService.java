@@ -11,8 +11,8 @@ public interface VehicleService {
 
     List<Vehicle> getVehiclesList();
     Vehicle getVehicleById(Long id);
-    Vehicle addVehicle(Vehicle user);
-    Vehicle editVehicle(Vehicle user);
+    Vehicle addVehicle(Vehicle vehicle);
+    Vehicle editVehicle(Vehicle vehicle);
     void deleteVehicle(Long id);
 
 }
