@@ -6,6 +6,8 @@ import java.io.Serializable;
 /**
  * Created by MF Fazeel Mohamed on 5/9/2017.
  */
+@Entity
+@Table(name = "hire")
 public class Hire implements Serializable {
 
 
@@ -16,11 +18,14 @@ public class Hire implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @Column(name = "startDate")
-    private String startDate;
+    @Column(name = "location")
+    private String location;
 
-    @Column(name = "endDate")
-    private String endDate;
+    @Column(name = "destination")
+    private String destination;
+
+    @Column(name = "hireDate")
+    private String hireDate;
 
     @Column(name = "startMilage")
     private double startMilage;
@@ -28,11 +33,29 @@ public class Hire implements Serializable {
     @Column(name = "endMilage")
     private double endMilage;
 
-    @Transient
+    @Column(name = "amount")
+    private double amount;
+
+    @Column(name = "bookingSeats")
+    private int bookingSeats;
+
+    @Column(name = "description",length = 500)
+    private int description;
+
+    @Column(name = "isFinished")
+    private boolean isFinished;
+
+    @Column(name = "status")
+    private int status;
+
+    @OneToOne
+    @JoinColumn(name = "id")
     private User customer;
-    @Transient
+    @OneToOne
+    @JoinColumn(name = "id")
     private User driver;
-    @Transient
+    @OneToOne
+    @JoinColumn(name = "id")
     private Vehicle vehicle;
 
     public Hire(){
@@ -45,22 +68,6 @@ public class Hire implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
     }
 
     public double getStartMilage() {
@@ -101,5 +108,69 @@ public class Hire implements Serializable {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getHireDate() {
+        return hireDate;
+    }
+
+    public void setHireDate(String hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public int getBookingSeats() {
+        return bookingSeats;
+    }
+
+    public void setBookingSeats(int bookingSeats) {
+        this.bookingSeats = bookingSeats;
+    }
+
+    public int getDescription() {
+        return description;
+    }
+
+    public void setDescription(int description) {
+        this.description = description;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

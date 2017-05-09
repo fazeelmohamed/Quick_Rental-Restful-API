@@ -21,6 +21,9 @@ public class Vehicle implements Serializable {
     @Column(name = "type", length = 30)
     private String type; // car, van
 
+    @Column(name = "noOfSeats")
+    private int noOfSeats;
+
     @Column(name = "vehicleNo", length = 50)
     private String vehicleNo;
 
@@ -35,6 +38,9 @@ public class Vehicle implements Serializable {
 
     @Column(name = "currentMillage")
     private double currentMillage;
+
+    @Column(name = "isAvailable")
+    private boolean isAvailable;
 
     public Vehicle(){
 
@@ -94,6 +100,22 @@ public class Vehicle implements Serializable {
 
     public void setCurrentMillage(double currentMillage) {
         this.currentMillage = currentMillage;
+    }
+
+    public int getNoOfSeats() {
+        return noOfSeats;
+    }
+
+    public void setNoOfSeats(int noOfSeats) {
+        this.noOfSeats = noOfSeats;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     @Override

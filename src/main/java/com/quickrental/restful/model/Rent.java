@@ -28,12 +28,26 @@ public class Rent implements Serializable{
     @Column(name = "endMilage")
     private double endMilage;
 
-    @Column(name = "description", length = 500)
-    private String description;
+    @Column(name = "advanceAmount")
+    private double advanceAmount;
 
-    @Transient
+    @Column(name = "amount")
+    private double amount;
+
+    @Column(name = "description",length = 500)
+    private int description;
+
+    @Column(name = "isFinished")
+    private boolean isFinished;
+
+    @Column(name = "status")
+    private int status;
+
+    @OneToOne
+    @JoinColumn(name = "id")
     private User customer;
-    @Transient
+    @OneToOne
+    @JoinColumn(name = "id")
     private Vehicle vehicle;
 
 
@@ -77,14 +91,6 @@ public class Rent implements Serializable{
         this.endMilage = endMilage;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public User getCustomer() {
         return customer;
     }
@@ -99,5 +105,45 @@ public class Rent implements Serializable{
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public double getAdvanceAmount() {
+        return advanceAmount;
+    }
+
+    public void setAdvanceAmount(double advanceAmount) {
+        this.advanceAmount = advanceAmount;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public int getDescription() {
+        return description;
+    }
+
+    public void setDescription(int description) {
+        this.description = description;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

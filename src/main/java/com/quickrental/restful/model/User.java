@@ -16,16 +16,33 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
+
     @Column(name = "fullname", length = 255)
     private String fullname;
+
     @Column(name = "email", length = 255)
     private String email;
+
     @Column(name = "password", length = 255)
     private String password;
+
     @Column(name = "address", length = 255)
     private String address;
+
     @Column(name = "phone")
     private Long phone;
+
+    @Column(name = "nic")
+    private String nic;
+
+    @Column(name = "licenseNo")
+    private String licenseNo;
+
+    @Column(name = "userRole")
+    private int userRole;
+
+
+
 
     public User(){}
 
@@ -96,6 +113,30 @@ public class User implements Serializable {
 
     public void setPhone(Long phone) {
         this.phone = phone;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getLicenseNo() {
+        return licenseNo;
+    }
+
+    public void setLicenseNo(String licenseNo) {
+        this.licenseNo = licenseNo;
+    }
+
+    public int getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(int userRole) {
+        this.userRole = userRole;
     }
 
     @Override
