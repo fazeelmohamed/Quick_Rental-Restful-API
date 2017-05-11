@@ -61,19 +61,21 @@ public class VehicleController {
     }
 
     //edit vehicle
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/edit",method = RequestMethod.PUT)
-    public ResponseEntity<Void> editVehicle(@RequestBody Vehicle vehicle) {
+    public ResponseEntity<Vehicle> editVehicle(@RequestBody Vehicle vehicle) {
         Vehicle existingVehicle = vehicleService.getVehicleById(vehicle.getId());
         if (existingVehicle == null) {
             logger.debug("Vehicle with id " + vehicle.getId() + " does not exists");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Vehicle>(HttpStatus.NOT_FOUND);
         } else {
-            vehicleService.editVehicle(vehicle);
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            Vehicle persistVehicle = vehicleService.editVehicle(vehicle);
+            return new ResponseEntity<Vehicle>(persistVehicle,HttpStatus.OK);
         }
     }
 
     //delete vehicle
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteVehicle(@PathVariable("id") Long id) {
         Vehicle existingVehicle = vehicleService.getVehicleById(id);
