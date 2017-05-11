@@ -27,8 +27,14 @@ public class Vehicle implements Serializable {
     @Column(name = "vehicleNo", length = 50)
     private String vehicleNo;
 
-    @Column(name = "modelNo", length = 50)
-    private String modelNo;
+    @Column(name = "modelName", length = 50)
+    private String modelName;
+
+    @Column(name = "rentPerDay")
+    private double rentPerDay;
+
+    @Column(name = "hirePerMilage")
+    private double hirePerMilage;
 
     @Column(name = "colour", length = 30)
     private String colour;
@@ -39,8 +45,8 @@ public class Vehicle implements Serializable {
     @Column(name = "currentMillage")
     private double currentMillage;
 
-    @Column(name = "isAvailable")
-    private boolean isAvailable;
+    @Column(name = "available")
+    private boolean available;
 
     public Vehicle(){
 
@@ -70,12 +76,32 @@ public class Vehicle implements Serializable {
         this.vehicleNo = vehicleNo;
     }
 
-    public String getModelNo() {
-        return modelNo;
+    public String getModelName() {
+        return modelName;
     }
 
-    public void setModelNo(String modelNo) {
-        this.modelNo = modelNo;
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public double getRentPerDay() {
+        return rentPerDay;
+    }
+
+    public void setRentPerDay(double rentPerDay) {
+        this.rentPerDay = rentPerDay;
+    }
+
+    public double getHirePerMilage() {
+        return hirePerMilage;
+    }
+
+    public void setHirePerMilage(double hirePerMilage) {
+        this.hirePerMilage = hirePerMilage;
+    }
+
+    public boolean isAvailable() {
+        return available;
     }
 
     public String getColour() {
@@ -110,12 +136,12 @@ public class Vehicle implements Serializable {
         this.noOfSeats = noOfSeats;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public boolean available() {
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        available = available;
     }
 
     @Override
@@ -124,7 +150,7 @@ public class Vehicle implements Serializable {
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", vehicleNo='" + vehicleNo + '\'' +
-                ", modelNo='" + modelNo + '\'' +
+                ", modelName='" + modelName + '\'' +
                 ", colour='" + colour + '\'' +
                 ", year=" + year +
                 ", currentMillage=" + currentMillage +

@@ -27,6 +27,9 @@ public class Hire implements Serializable {
     @Column(name = "hireDate")
     private String hireDate;
 
+    @Column(name = "hireTime")
+    private String hireTime;
+
     @Column(name = "startMilage")
     private double startMilage;
 

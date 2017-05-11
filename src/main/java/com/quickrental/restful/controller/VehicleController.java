@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * Created by MF Fazeel Mohamed on 5/8/2017.
  */
+
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleController {
@@ -50,11 +51,13 @@ public class VehicleController {
     }
 
     //add vehicle
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Void> addVehicle(@RequestBody Vehicle vehicle){
+    public ResponseEntity<Vehicle> addVehicle(@RequestBody Vehicle vehicle){
+        System.out.println("Vehicle: "+ vehicle);
         Vehicle persistVehicle = vehicleService.addVehicle(vehicle);
         logger.debug("Added:: " + persistVehicle);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        return new ResponseEntity<Vehicle>(persistVehicle,HttpStatus.CREATED);
     }
 
     //edit vehicle

@@ -19,8 +19,14 @@ public class Rent implements Serializable{
     @Column(name = "startDate")
     private String startDate;
 
+    @Column(name = "startTime")
+    private String startTime;
+
     @Column(name = "endDate")
     private String endDate;
+
+    @Column(name = "endTime")
+    private String endTime;
 
     @Column(name = "startMilage")
     private double startMilage;
@@ -145,5 +151,21 @@ public class Rent implements Serializable{
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }
