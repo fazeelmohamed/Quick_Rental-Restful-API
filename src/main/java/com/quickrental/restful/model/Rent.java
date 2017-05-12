@@ -102,7 +102,7 @@ public class Rent implements Serializable{
     }
 
     public void setCustomer(User customer) {
-        this.customer = customer;
+        this.customer = customer; 
     }
 
     public Vehicle getVehicle() {

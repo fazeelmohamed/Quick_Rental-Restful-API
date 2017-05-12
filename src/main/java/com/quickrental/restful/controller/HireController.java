@@ -51,8 +51,10 @@ public class HireController {
     }
 
     //add hire
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<Hire> addHire(@RequestBody Hire hire){
+    	System.out.println("Hire time: "+hire.getHireTime());
         Hire persistHire = hireService.addHire(hire);
         logger.debug("Added: " + persistHire);
         return new ResponseEntity<Hire>(persistHire,HttpStatus.CREATED);

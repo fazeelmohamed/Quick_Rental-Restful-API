@@ -30,7 +30,7 @@ public class Hire implements Serializable {
     @Column(name = "hireTime")
     private String hireTime;
 
-    @Column(name = "startMilage")
+	@Column(name = "startMilage")
     private double startMilage;
 
     @Column(name = "endMilage")
@@ -42,8 +42,8 @@ public class Hire implements Serializable {
     @Column(name = "bookingSeats")
     private int bookingSeats;
 
-    @Column(name = "description",length = 500)
-    private int description;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "isFinished")
     private boolean isFinished;
@@ -153,11 +153,11 @@ public class Hire implements Serializable {
         this.bookingSeats = bookingSeats;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(int description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -176,4 +176,12 @@ public class Hire implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+    
+    public String getHireTime() {
+		return hireTime;
+	}
+
+	public void setHireTime(String hireTime) {
+		this.hireTime = hireTime;
+	}
 }
