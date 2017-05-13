@@ -38,6 +38,7 @@ public class VehicleController {
     }
 
     //get vehicles list
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Vehicle>> getAllVehicles() {
         List<Vehicle> vehiclesList = vehicleService.getVehiclesList();
@@ -77,15 +78,15 @@ public class VehicleController {
     //delete vehicle
     @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteVehicle(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteVehicle(@PathVariable("id") Long id) {
         Vehicle existingVehicle = vehicleService.getVehicleById(id);
         if (existingVehicle == null) {
             logger.debug("Vehicle with id " + id + " does not exists");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         } else {
             vehicleService.deleteVehicle(id);
             logger.debug("Vehicle with id " + id + " deleted");
-            return new ResponseEntity<Void>(HttpStatus.GONE);
+            return new ResponseEntity<String>("Successfully deleted",HttpStatus.OK);
         }
     }
 }

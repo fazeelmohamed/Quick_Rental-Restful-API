@@ -41,6 +41,9 @@ public class User implements Serializable {
     @Column(name = "userRole")
     private int userRole;
 
+    @Column(name = "available")
+    private boolean available;
+
 
 
 

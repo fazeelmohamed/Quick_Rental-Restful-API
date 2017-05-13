@@ -50,10 +50,10 @@ public class Rent implements Serializable{
     private int status;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "customerId",referencedColumnName="id")
     private User customer;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "vehicleId",referencedColumnName="id")
     private Vehicle vehicle;
 
 

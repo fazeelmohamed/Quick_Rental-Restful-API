@@ -25,6 +25,7 @@ public class DriverController {
     UserService userService;
 
     //get driver
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> getDriver(@PathVariable("id") Long id){
         User user = userService.getUserById(id);
@@ -37,6 +38,7 @@ public class DriverController {
     }
 
     //get drivers list
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllDrivers() {
         List<User> usersList = userService.getUsersList();
@@ -50,6 +52,7 @@ public class DriverController {
     }
 
     //add driver
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<User> addDriver(@RequestBody User user){
         User persistUser = userService.addUser(user);
@@ -58,29 +61,31 @@ public class DriverController {
     }
 
     //edit driver
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/edit",method = RequestMethod.PUT)
-    public ResponseEntity<Void> editDriver(@RequestBody User user) {
+    public ResponseEntity<User> editDriver(@RequestBody User user) {
         User existingUser = userService.getUserById(user.getId());
         if (existingUser == null) {
             logger.debug("User with id " + user.getId() + " does not exists");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         } else {
-            userService.editUser(user);
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            User persistDriver = userService.editUser(user);
+            return new ResponseEntity<User>(persistDriver,HttpStatus.OK);
         }
     }
 
     //delete driver
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteDriver(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteDriver(@PathVariable("id") Long id) {
         User existingUser = userService.getUserById(id);
         if (existingUser == null) {
             logger.debug("User with id " + id + " does not exists");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         } else {
             userService.deleteUser(id);
             logger.debug("User with id " + id + " deleted");
-            return new ResponseEntity<Void>(HttpStatus.GONE);
+            return new ResponseEntity<String>("Successfully deleted",HttpStatus.OK);
         }
     }
 }
