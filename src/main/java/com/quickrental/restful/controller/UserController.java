@@ -1,0 +1,36 @@
+package com.quickrental.restful.controller;
+
+import com.quickrental.restful.model.User;
+import com.quickrental.restful.service.UserService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * Created by MF Fazeel Mohamed on 5/15/2017.
+ */
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+
+    final static Logger logger = Logger.getLogger(User.class);
+
+    @Autowired
+    UserService userService;
+
+    //get driver
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public ResponseEntity<User> getDriver(@PathVariable("username") String username){
+        User user = userService.findByUsername(username);
+        if(user == null){
+            logger.debug("User with id " + username + " does not exists");
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        logger.debug("Found User: " + user);
+        return new ResponseEntity<User>(user,HttpStatus.OK);
+    }
+}
