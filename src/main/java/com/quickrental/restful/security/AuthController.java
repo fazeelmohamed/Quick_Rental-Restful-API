@@ -58,8 +58,6 @@ public class AuthController {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginUser.getUsername(), loginUser.getPassword());
 
-        User user = userService.findByUsername(loginUser.getUsername());
-
         try {
             this.authenticationManager.authenticate(authenticationToken);
             return tokenProvider.createToken(loginUser.getUsername());

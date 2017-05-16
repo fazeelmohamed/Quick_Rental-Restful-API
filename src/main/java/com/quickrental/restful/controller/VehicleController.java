@@ -63,7 +63,7 @@ public class VehicleController {
 
     //edit vehicle
     @CrossOrigin(allowedHeaders="*",allowCredentials="true")
-    @RequestMapping(value = "/edit",method = RequestMethod.PUT)
+    @RequestMapping(value = "/edit",method = RequestMethod.POST)
     public ResponseEntity<Vehicle> editVehicle(@RequestBody Vehicle vehicle) {
         Vehicle existingVehicle = vehicleService.getVehicleById(vehicle.getId());
         if (existingVehicle == null) {

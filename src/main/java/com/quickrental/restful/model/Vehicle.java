@@ -45,7 +45,7 @@ public class Vehicle implements Serializable {
     @Column(name = "currentMillage")
     private double currentMillage;
 
-    @Column(name = "available")
+    @Column(name = "available", columnDefinition = "TINYINT(1)")
     private boolean available;
 
     public Vehicle(){
@@ -141,7 +141,7 @@ public class Vehicle implements Serializable {
     }
 
     public void setAvailable(boolean available) {
-        available = available;
+        this.available = available;
     }
 
     @Override

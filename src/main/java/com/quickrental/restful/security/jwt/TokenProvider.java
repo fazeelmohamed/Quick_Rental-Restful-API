@@ -50,6 +50,8 @@ public class TokenProvider {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("userId", user.getId() + "");
         claims.put("role", user.getUserRole());
+        claims.put("fullname", user.getFullname());
+        claims.put("email", user.getEmail());
 
         return Jwts.builder().setId(UUID.randomUUID().toString())
                 .setClaims(claims)
