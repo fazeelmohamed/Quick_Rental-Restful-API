@@ -21,10 +21,10 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    //get driver
+    //get user by username
     @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public ResponseEntity<User> getDriver(@PathVariable("username") String username){
+    public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username){
         User user = userService.findByUsername(username);
         if(user == null){
             logger.debug("User with id " + username + " does not exists");
@@ -33,4 +33,20 @@ public class UserController {
         logger.debug("Found User: " + user);
         return new ResponseEntity<User>(user,HttpStatus.OK);
     }
+
+
+    //get user by id
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public ResponseEntity<User> getUserUsingId(@PathVariable("id") Long id){
+        User user = userService.getUserById(id);
+        if(user == null){
+            logger.debug("User with id " + id + " does not exists");
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        logger.debug("Found User: " + user);
+        return new ResponseEntity<User>(user,HttpStatus.OK);
+    }
+
+
 }

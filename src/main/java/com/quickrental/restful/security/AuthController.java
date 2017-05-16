@@ -81,4 +81,17 @@ public class AuthController {
         this.userService.addUser(signupUser);
         return this.tokenProvider.createToken(signupUser.getUsername());
     }
+
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping(value = "/user/edit",method = RequestMethod.PUT)
+    public ResponseEntity<User> editUser(@RequestBody User user) {
+        User existUser = userService.getUserById(user.getId());
+        if (existUser == null) {
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        } else {
+            user.encodePassword(this.passwordEncoder);
+            User persistUser = userService.editUser(user);
+            return new ResponseEntity<User>(persistUser,HttpStatus.OK);
+        }
+    }
 }
