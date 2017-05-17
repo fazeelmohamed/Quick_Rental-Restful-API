@@ -1,9 +1,11 @@
 package com.quickrental.restful.controller;
 
 
+import com.quickrental.restful.model.User;
 import com.quickrental.restful.model.Vehicle;
 import com.quickrental.restful.service.VehicleService;
 import org.apache.log4j.Logger;
+import org.hamcrest.Matchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.select;
 
 /**
  * Created by MF Fazeel Mohamed on 5/8/2017.
@@ -37,7 +43,7 @@ public class VehicleController {
         return new ResponseEntity<Vehicle>(vehicle,HttpStatus.OK);
     }
 
-    //get vehicles list
+    //get all vehicles list
     @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Vehicle>> getAllVehicles() {
@@ -50,6 +56,39 @@ public class VehicleController {
         logger.debug(Arrays.toString(vehiclesList.toArray()));
         return new ResponseEntity<List<Vehicle>>(vehiclesList, HttpStatus.OK);
     }
+
+    //get available vehicles list
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping(value = "/available",method = RequestMethod.GET)
+    public ResponseEntity<List<Vehicle>> getAvailableVehicles() {
+        List<Vehicle> vehiclesList = vehicleService.getVehiclesList();
+        List<Vehicle> availableVehiclesList = select(vehiclesList,having(on(Vehicle.class).isAvailable(), Matchers.equalTo(true)));
+
+        if (vehiclesList.isEmpty()) {
+            logger.debug("Vehicle does not exists");
+            return new ResponseEntity<List<Vehicle>>(HttpStatus.NO_CONTENT);
+        }
+        logger.debug("Found " + availableVehiclesList.size() + " Vehicles");
+        logger.debug(Arrays.toString(availableVehiclesList.toArray()));
+        return new ResponseEntity<List<Vehicle>>(availableVehiclesList, HttpStatus.OK);
+    }
+
+    //get unavailable vehicles list
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping(value = "/unavailable",method = RequestMethod.GET)
+    public ResponseEntity<List<Vehicle>> getUnAvailableVehicles() {
+        List<Vehicle> vehiclesList = vehicleService.getVehiclesList();
+        List<Vehicle> availableVehiclesList = select(vehiclesList,having(on(Vehicle.class).isAvailable(), Matchers.equalTo(false)));
+
+        if (vehiclesList.isEmpty()) {
+            logger.debug("Vehicle does not exists");
+            return new ResponseEntity<List<Vehicle>>(HttpStatus.NO_CONTENT);
+        }
+        logger.debug("Found " + availableVehiclesList.size() + " Vehicles");
+        logger.debug(Arrays.toString(availableVehiclesList.toArray()));
+        return new ResponseEntity<List<Vehicle>>(availableVehiclesList, HttpStatus.OK);
+    }
+
 
     //add vehicle
     @CrossOrigin(allowedHeaders="*",allowCredentials="true")

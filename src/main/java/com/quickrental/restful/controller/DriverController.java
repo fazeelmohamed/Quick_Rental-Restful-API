@@ -42,13 +42,48 @@ public class DriverController {
         return new ResponseEntity<User>(user,HttpStatus.OK);
     }
 
-    //get drivers list
+    //get all drivers list
+
     @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllDrivers() {
         List<User> usersList = userService.getUsersList();
         List<User> driverList = select(usersList,having(on(User.class).getUserRole(), Matchers.equalTo(3)));
+
+        if (driverList.isEmpty()) {
+            logger.debug("Users does not exists");
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        logger.debug("Found available " + driverList.size() + " Drivers");
+        logger.debug(Arrays.toString(driverList.toArray()));
+        return new ResponseEntity<List<User>>(driverList, HttpStatus.OK);
+    }
+
+    //get available drivers list
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping(value = "/available",method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getAvailableDrivers() {
+        List<User> usersList = userService.getUsersList();
+
+        List<User> driverList = select(usersList,having(on(User.class).getUserRole(), Matchers.equalTo(3)));
+
         List<User> availableDriverList = select(driverList,having(on(User.class).isAvailable(), Matchers.equalTo(true)));
+        if (driverList.isEmpty()) {
+            logger.debug("Users does not exists");
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        logger.debug("Found available " + availableDriverList.size() + " Drivers");
+        logger.debug(Arrays.toString(availableDriverList.toArray()));
+        return new ResponseEntity<List<User>>(availableDriverList, HttpStatus.OK);
+    }
+
+    //get unavailable drivers list
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping(value = "/unavailable",method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getUnAvailableDrivers() {
+        List<User> usersList = userService.getUsersList();
+        List<User> driverList = select(usersList,having(on(User.class).getUserRole(), Matchers.equalTo(3)));
+        List<User> availableDriverList = select(driverList,having(on(User.class).isAvailable(), Matchers.equalTo(false)));
         if (driverList.isEmpty()) {
             logger.debug("Users does not exists");
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
