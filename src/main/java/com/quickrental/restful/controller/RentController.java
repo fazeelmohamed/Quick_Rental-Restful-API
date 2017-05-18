@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by MF Fazeel Mohamed on 5/9/2017.
  */
-
+@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
 @RequestMapping("/rent")
 public class RentController {

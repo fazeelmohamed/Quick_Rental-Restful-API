@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by MF Fazeel Mohamed on 5/8/2017.
  */
-
+@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
 @RequestMapping("/driver")
 public class DriverController {
@@ -30,7 +30,6 @@ public class DriverController {
     UserService userService;
 
     //get driver
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> getDriver(@PathVariable("id") Long id){
         User user = userService.getUserById(id);
@@ -43,8 +42,6 @@ public class DriverController {
     }
 
     //get all drivers list
-
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllDrivers() {
         List<User> usersList = userService.getUsersList();
@@ -60,7 +57,6 @@ public class DriverController {
     }
 
     //get available drivers list
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/available",method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAvailableDrivers() {
         List<User> usersList = userService.getUsersList();
@@ -78,7 +74,6 @@ public class DriverController {
     }
 
     //get unavailable drivers list
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/unavailable",method = RequestMethod.GET)
     public ResponseEntity<List<User>> getUnAvailableDrivers() {
         List<User> usersList = userService.getUsersList();
@@ -94,7 +89,6 @@ public class DriverController {
     }
 
     //add driver
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<User> addDriver(@RequestBody User user){
         user.setUserRole(3);
@@ -104,7 +98,6 @@ public class DriverController {
     }
 
     //edit driver
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/edit",method = RequestMethod.PUT)
     public ResponseEntity<User> editDriver(@RequestBody User user) {
         user.setUserRole(3);
@@ -119,7 +112,6 @@ public class DriverController {
     }
 
     //delete driver
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteDriver(@PathVariable("id") Long id) {
         User existingUser = userService.getUserById(id);

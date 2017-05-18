@@ -2,8 +2,10 @@ package com.quickrental.restful.controller;
 
 import com.quickrental.restful.model.Hire;
 import com.quickrental.restful.model.User;
+import com.quickrental.restful.model.Vehicle;
 import com.quickrental.restful.service.HireService;
 import org.apache.log4j.Logger;
+import org.hamcrest.Matchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.select;
+
 
 /**
  * Created by MF Fazeel Mohamed on 5/9/2017.
  */
-
+@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
 @RequestMapping("/hire")
 public class HireController {
@@ -50,8 +56,21 @@ public class HireController {
         return new ResponseEntity<List<Hire>>(hireList, HttpStatus.OK);
     }
 
+    //get pending hire list
+    @RequestMapping(value = "/pending" , method = RequestMethod.GET)
+    public ResponseEntity<List<Hire>> getPendingHireDetails() {
+        List<Hire> hireList = hireService.getHireList();
+        List<Hire> pendingHireList = select(hireList,having(on(Hire.class).getStatus(), Matchers.equalTo(1)));
+        if (hireList.isEmpty()) {
+            logger.debug("Hire does not exists");
+            return new ResponseEntity<List<Hire>>(HttpStatus.NO_CONTENT);
+        }
+        logger.debug("Found " + pendingHireList.size() + " Hires");
+        logger.debug(Arrays.toString(pendingHireList.toArray()));
+        return new ResponseEntity<List<Hire>>(pendingHireList, HttpStatus.OK);
+    }
+
     //add hire
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<Hire> addHire(@RequestBody Hire hire){
     	System.out.println("Hire time: "+hire.getHireTime());
@@ -62,14 +81,14 @@ public class HireController {
 
     //edit hire
     @RequestMapping(value = "/edit",method = RequestMethod.PUT)
-    public ResponseEntity<Void> editHire(@RequestBody Hire hire) {
+    public ResponseEntity<Hire> editHire(@RequestBody Hire hire) {
         Hire existingHire = hireService.getHireById(hire.getId());
         if (existingHire == null) {
             logger.debug("Hire with id " + hire.getId() + " does not exists");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Hire>(HttpStatus.NOT_FOUND);
         } else {
-            hireService.editHire(hire);
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            Hire persistHire = hireService.editHire(hire);
+            return new ResponseEntity<Hire>(persistHire,HttpStatus.OK);
         }
     }
 

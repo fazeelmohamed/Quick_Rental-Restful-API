@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Created by MF Fazeel Mohamed on 5/15/2017.
  */
-
+@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -22,7 +22,6 @@ public class UserController {
     UserService userService;
 
     //get user by username
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username){
         User user = userService.findByUsername(username);
@@ -36,7 +35,6 @@ public class UserController {
 
 
     //get user by id
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> getUserUsingId(@PathVariable("id") Long id){
         User user = userService.getUserById(id);

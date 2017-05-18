@@ -21,7 +21,7 @@ import static ch.lambdaj.Lambda.select;
 /**
  * Created by MF Fazeel Mohamed on 5/8/2017.
  */
-
+@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleController {
@@ -44,7 +44,6 @@ public class VehicleController {
     }
 
     //get all vehicles list
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Vehicle>> getAllVehicles() {
         List<Vehicle> vehiclesList = vehicleService.getVehiclesList();
@@ -58,7 +57,6 @@ public class VehicleController {
     }
 
     //get available vehicles list
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/available",method = RequestMethod.GET)
     public ResponseEntity<List<Vehicle>> getAvailableVehicles() {
         List<Vehicle> vehiclesList = vehicleService.getVehiclesList();
@@ -74,7 +72,6 @@ public class VehicleController {
     }
 
     //get unavailable vehicles list
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/unavailable",method = RequestMethod.GET)
     public ResponseEntity<List<Vehicle>> getUnAvailableVehicles() {
         List<Vehicle> vehiclesList = vehicleService.getVehiclesList();
@@ -91,7 +88,6 @@ public class VehicleController {
 
 
     //add vehicle
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<Vehicle> addVehicle(@RequestBody Vehicle vehicle){
         System.out.println("Vehicle: "+ vehicle);
@@ -101,7 +97,6 @@ public class VehicleController {
     }
 
     //edit vehicle
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     public ResponseEntity<Vehicle> editVehicle(@RequestBody Vehicle vehicle) {
         Vehicle existingVehicle = vehicleService.getVehicleById(vehicle.getId());
@@ -115,7 +110,6 @@ public class VehicleController {
     }
 
     //delete vehicle
-    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteVehicle(@PathVariable("id") Long id) {
         Vehicle existingVehicle = vehicleService.getVehicleById(id);

@@ -28,22 +28,22 @@ public class Rent implements Serializable{
     @Column(name = "endTime")
     private String endTime;
 
-    @Column(name = "startMilage")
+    @Column(name = "startMilage", columnDefinition="Decimal(10,2) default '0.00'")
     private double startMilage;
 
-    @Column(name = "endMilage")
+    @Column(name = "endMilage", columnDefinition="Decimal(10,2) default '0.00'")
     private double endMilage;
 
-    @Column(name = "advanceAmount")
+    @Column(name = "advanceAmount", columnDefinition="Decimal(10,2) default '0.00'")
     private double advanceAmount;
 
-    @Column(name = "amount")
+    @Column(name = "amount", columnDefinition="Decimal(10,2) default '0.00'")
     private double amount;
 
     @Column(name = "description",length = 500)
     private int description;
 
-    @Column(name = "isFinished")
+    @Column(name = "isFinished", columnDefinition = "tinyint default false")
     private boolean isFinished;
 
     @Column(name = "status")
