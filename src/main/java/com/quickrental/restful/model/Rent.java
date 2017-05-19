@@ -41,7 +41,7 @@ public class Rent implements Serializable{
     private double amount;
 
     @Column(name = "description",length = 500)
-    private int description;
+    private String description;
 
     @Column(name = "isFinished", columnDefinition = "tinyint default false")
     private boolean isFinished;
@@ -129,11 +129,11 @@ public class Rent implements Serializable{
         this.amount = amount;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(int description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

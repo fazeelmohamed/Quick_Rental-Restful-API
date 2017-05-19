@@ -2,8 +2,11 @@ package com.quickrental.restful.controller;
 
 
 import com.quickrental.restful.model.Rent;
+import com.quickrental.restful.model.Vehicle;
 import com.quickrental.restful.service.RentService;
+import com.quickrental.restful.service.VehicleService;
 import org.apache.log4j.Logger;
+import org.hamcrest.Matchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.select;
 
 /**
  * Created by MF Fazeel Mohamed on 5/9/2017.
@@ -24,6 +31,10 @@ public class RentController {
 
     @Autowired
     RentService rentService;
+
+    @Autowired
+    VehicleService vehicleService;
+
 
     //get rent
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -50,6 +61,54 @@ public class RentController {
         return new ResponseEntity<List<Rent>>(rentList, HttpStatus.OK);
     }
 
+    //get pending rent list
+    @RequestMapping(value = "/pending" ,method = RequestMethod.GET)
+    public ResponseEntity<List<Rent>> getPendingRentDetails() {
+        List<Rent> rentList = rentService.getRentList();
+        List<Rent> pendingRentList = select(rentList,having(on(Rent.class).getStatus(), Matchers.equalTo(1)));
+
+        if (rentList.isEmpty()) {
+            return new ResponseEntity<List<Rent>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Rent>>(pendingRentList, HttpStatus.OK);
+    }
+
+    //get accepted rent list
+    @RequestMapping(value = "/accepted" ,method = RequestMethod.GET)
+    public ResponseEntity<List<Rent>> getAcceptedRentDetails() {
+        List<Rent> rentList = rentService.getRentList();
+        List<Rent> acceptedRentList = select(rentList,having(on(Rent.class).getStatus(), Matchers.equalTo(2)));
+
+        if (rentList.isEmpty()) {
+            return new ResponseEntity<List<Rent>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Rent>>(acceptedRentList, HttpStatus.OK);
+    }
+
+    //get rejected rent list
+    @RequestMapping(value = "/rejected" ,method = RequestMethod.GET)
+    public ResponseEntity<List<Rent>> getRejectedRentDetails() {
+        List<Rent> rentList = rentService.getRentList();
+        List<Rent> rejectedRentList = select(rentList,having(on(Rent.class).getStatus(), Matchers.equalTo(3)));
+
+        if (rentList.isEmpty()) {
+            return new ResponseEntity<List<Rent>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Rent>>(rejectedRentList, HttpStatus.OK);
+    }
+
+    //get completed rent list
+    @RequestMapping(value = "/completed" ,method = RequestMethod.GET)
+    public ResponseEntity<List<Rent>> getCompletedRentDetails() {
+        List<Rent> rentList = rentService.getRentList();
+        List<Rent> completedRentList = select(rentList,having(on(Rent.class).isFinished(), Matchers.equalTo(true)));
+
+        if (rentList.isEmpty()) {
+            return new ResponseEntity<List<Rent>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Rent>>(completedRentList, HttpStatus.OK);
+    }
+
     //add rent
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<Rent> addrent(@RequestBody Rent rent){
@@ -60,14 +119,21 @@ public class RentController {
 
     //edit rent
     @RequestMapping(value = "/edit",method = RequestMethod.PUT)
-    public ResponseEntity<Void> editrent(@RequestBody Rent rent) {
+    public ResponseEntity<Rent> editrent(@RequestBody Rent rent) {
+
+        Vehicle vehicle = rent.getVehicle();
+        if(rent.isFinished()){
+            vehicle.setAvailable(true);
+        }
+        vehicleService.editVehicle(vehicle);
+
         Rent existingrent = rentService.getRentById(rent.getId());
         if (existingrent == null) {
             logger.debug("Rent with id " + rent.getId() + " does not exists");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Rent>(HttpStatus.NOT_FOUND);
         } else {
-            rentService.editRent(rent);
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            Rent persistRent = rentService.editRent(rent);
+            return new ResponseEntity<Rent>(persistRent,HttpStatus.OK);
         }
     }
 
