@@ -90,7 +90,6 @@ public class VehicleController {
     //add vehicle
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<Vehicle> addVehicle(@RequestBody Vehicle vehicle){
-        System.out.println("Vehicle: "+ vehicle);
         Vehicle persistVehicle = vehicleService.addVehicle(vehicle);
         logger.debug("Added:: " + persistVehicle);
         return new ResponseEntity<Vehicle>(persistVehicle,HttpStatus.CREATED);
