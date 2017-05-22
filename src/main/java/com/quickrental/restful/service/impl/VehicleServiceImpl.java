@@ -42,4 +42,13 @@ public class VehicleServiceImpl implements VehicleService {
     public void deleteVehicle(Long id) {
         vehicleRepository.delete(id);
     }
+
+	
+    @Override
+	public List<Vehicle> getAvailableVehicles(Boolean bool) {
+    	List<Vehicle> vehiclesList = vehicleRepository.findAllByAvailable(bool);
+		return vehiclesList;
+	}
+	
+	
 }

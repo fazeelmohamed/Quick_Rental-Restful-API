@@ -44,10 +44,8 @@ public class User implements Serializable {
     @Column(name = "available")
     private boolean available;
 
-
-
-
-    public User(){}
+    
+	public User(){}
 
     public User(Long id) {
         this.id = id;
@@ -141,6 +139,15 @@ public class User implements Serializable {
     public void setUserRole(int userRole) {
         this.userRole = userRole;
     }
+    
+    public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
 
     @Override
     public boolean equals(Object obj) {

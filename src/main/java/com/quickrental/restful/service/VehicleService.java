@@ -14,5 +14,8 @@ public interface VehicleService {
     Vehicle addVehicle(Vehicle vehicle);
     Vehicle editVehicle(Vehicle vehicle);
     void deleteVehicle(Long id);
+    
+    List<Vehicle> getAvailableVehicles(Boolean available);
+    
 
 }

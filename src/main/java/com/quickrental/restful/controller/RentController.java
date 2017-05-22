@@ -2,7 +2,12 @@ package com.quickrental.restful.controller;
 
 
 import com.quickrental.restful.model.Rent;
+import com.quickrental.restful.model.User;
+import com.quickrental.restful.model.Vehicle;
 import com.quickrental.restful.service.RentService;
+import com.quickrental.restful.service.UserService;
+import com.quickrental.restful.service.VehicleService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +20,7 @@ import java.util.List;
 /**
  * Created by MF Fazeel Mohamed on 5/9/2017.
  */
-
+@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
 @RequestMapping("/rent")
 public class RentController {
@@ -25,6 +30,13 @@ public class RentController {
     @Autowired
     RentService rentService;
 
+    @Autowired
+    UserService userService;
+    
+    @Autowired
+    VehicleService vehicleService;
+    
+    
     //get rent
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Rent> getRentDetails(@PathVariable("id") Long id){
@@ -49,11 +61,32 @@ public class RentController {
         logger.debug(Arrays.toString(rentList.toArray()));
         return new ResponseEntity<List<Rent>>(rentList, HttpStatus.OK);
     }
+    
+  //get rent list by user id
+    @RequestMapping(value = "/rentsByUser/{customerId}", method = RequestMethod.GET)
+    public ResponseEntity<List<Rent>> getRentByUserId(@PathVariable("customerId") Long customerId) {
+        List<Rent> rentList = rentService.getRentListByUser(customerId);
+        if (rentList.isEmpty()) {
+            logger.debug("rents does not exists");
+            return new ResponseEntity<List<Rent>>(HttpStatus.NO_CONTENT);
+        }
+        logger.debug("Found " + rentList.size() + " rents");
+        logger.debug(Arrays.toString(rentList.toArray()));
+        return new ResponseEntity<List<Rent>>(rentList, HttpStatus.OK);
+    }
+    
+    
 
     //add rent
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Rent> addrent(@RequestBody Rent rent){
-        Rent persistrent = rentService.addRent(rent);
+    @RequestMapping(value = "/add/{customerId}/{vehicleId}", method = RequestMethod.POST)
+    public ResponseEntity<Rent> addRent(@RequestBody Rent rent, @PathVariable("customerId") Long customerId, @PathVariable("vehicleId") Long vehicleId){
+        Vehicle vehicle = vehicleService.getVehicleById(vehicleId);
+        rent.setVehicle(vehicle);
+        
+        User customer = userService.getUserById(customerId);
+        rent.setCustomer(customer); 
+   
+    	Rent persistrent = rentService.addRent(rent);
         logger.debug("Added: " + persistrent);
         return new ResponseEntity<Rent>(persistrent,HttpStatus.CREATED);
     }
@@ -73,15 +106,16 @@ public class RentController {
 
     //delete rent
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleterent(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleterent(@PathVariable("id") Long id) {
         Rent existingrent = rentService.getRentById(id);
         if (existingrent == null) {
             logger.debug("Rent with id " + id + " does not exists");
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         } else {
             rentService.deleteRent(id);
             logger.debug("Rent with id " + id + " deleted");
-            return new ResponseEntity<Void>(HttpStatus.GONE);
+            System.out.println("Rent with id " + id + " deleted");
+            return new ResponseEntity<String>("Delete Success",HttpStatus.OK);
         }
     }
     

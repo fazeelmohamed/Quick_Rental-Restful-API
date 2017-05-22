@@ -50,7 +50,24 @@ public class VehicleController {
         logger.debug(Arrays.toString(vehiclesList.toArray()));
         return new ResponseEntity<List<Vehicle>>(vehiclesList, HttpStatus.OK);
     }
+    
+    
+  //get available vehicles 
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping("/getAvailableVehicles/{bool}")
+    public ResponseEntity<List<Vehicle>> getAvailableVehicles(@PathVariable(value="bool") Boolean bool) {
+        List<Vehicle> vehiclesList = vehicleService.getAvailableVehicles(bool);
+        if (vehiclesList.isEmpty()) {
+            logger.debug("Vehicle does not exists");
+            return new ResponseEntity<List<Vehicle>>(HttpStatus.NO_CONTENT);
+        }
+        logger.debug("Num of available " + vehiclesList.size() + " Vehicles");
+        System.out.println("Num of available Vehicles : " + vehiclesList.size());
+        logger.debug(Arrays.toString(vehiclesList.toArray()));
+        return new ResponseEntity<List<Vehicle>>(vehiclesList, HttpStatus.OK);
+    }
 
+ 
     //add vehicle
     @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -61,6 +78,20 @@ public class VehicleController {
         return new ResponseEntity<Vehicle>(persistVehicle,HttpStatus.CREATED);
     }
 
+    /*
+    //pick the vehicle
+    @CrossOrigin(allowedHeaders="*",allowCredentials="true")
+    @RequestMapping(value = "/pickRentVehicle/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Vehicle> pickVehicle(@PathVariable(value = "id") Long id ){
+		Vehicle vehicle = vehicleService.getVehicleById(id);
+    	System.out.println("Picked Vehicle is : "+vehicle.getModelName());
+    	vehicleService.addVehicle(vehicle);
+    	return new ResponseEntity<Vehicle>(vehicle, HttpStatus.OK);
+    	
+    }
+    */
+    
+    
     //edit vehicle
     @CrossOrigin(allowedHeaders="*",allowCredentials="true")
     @RequestMapping(value = "/edit",method = RequestMethod.PUT)

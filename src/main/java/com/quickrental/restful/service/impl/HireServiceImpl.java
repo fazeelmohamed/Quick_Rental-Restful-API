@@ -40,4 +40,10 @@ public class HireServiceImpl implements HireService {
     public void deleteHire(Long id) {
         hireRepository.delete(id);
     }
+
+	@Override
+	public List<Hire> getRentListByUser(Long customerId) {
+		List<Hire> rentListUser = hireRepository.findHiresByUser(customerId);
+		return rentListUser;
+	}
 }

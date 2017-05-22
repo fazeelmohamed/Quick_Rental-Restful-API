@@ -14,4 +14,6 @@ public interface RentService {
     Rent addRent(Rent rent);
     Rent editRent(Rent rent);
     void deleteRent(Long id);
+    
+    List<Rent> getRentListByUser(Long customerId);
 }

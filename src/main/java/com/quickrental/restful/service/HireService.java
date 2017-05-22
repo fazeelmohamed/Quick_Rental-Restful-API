@@ -2,6 +2,7 @@ package com.quickrental.restful.service;
 
 import com.quickrental.restful.model.Hire;
 
+
 import java.util.List;
 
 /**
@@ -14,4 +15,6 @@ public interface HireService {
     Hire addHire(Hire hire);
     Hire editHire(Hire hire);
     void deleteHire(Long id);
+    
+    List<Hire> getRentListByUser(Long customerId);
 }

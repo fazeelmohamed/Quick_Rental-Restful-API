@@ -41,4 +41,10 @@ public class RentServiceImpl implements RentService {
     public void deleteRent(Long id) {
         rentRepository.delete(id);
     }
+
+	@Override
+	public List<Rent> getRentListByUser(Long customerId) {
+		List<Rent> rentListUser = rentRepository.findRentsByUser(customerId);
+		return rentListUser;
+	}
 }
