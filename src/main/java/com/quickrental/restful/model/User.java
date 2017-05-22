@@ -1,5 +1,7 @@
 package com.quickrental.restful.model;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -20,7 +22,10 @@ public class User implements Serializable {
     @Column(name = "fullname", length = 255)
     private String fullname;
 
-    @Column(name = "email", length = 255)
+    @Column(name = "username", unique = true, length = 255)
+    private String username;
+
+    @Column(name = "email", unique = true, length = 255)
     private String email;
 
     @Column(name = "password", length = 255)
@@ -44,8 +49,10 @@ public class User implements Serializable {
     @Column(name = "available")
     private boolean available;
 
-    
-	public User(){}
+    @Transient
+    private String jwtToken;
+    public User(){}
+
 
     public User(Long id) {
         this.id = id;
@@ -82,6 +89,22 @@ public class User implements Serializable {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public String getEmail() {
@@ -139,15 +162,14 @@ public class User implements Serializable {
     public void setUserRole(int userRole) {
         this.userRole = userRole;
     }
-    
-    public boolean isAvailable() {
-		return available;
-	}
 
-	public void setAvailable(boolean available) {
-		this.available = available;
-	}
+    public String getJwtToken() {
+        return jwtToken;
+    }
 
+    public void setJwtToken(String jwtToken) {
+        this.jwtToken = jwtToken;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -163,4 +185,9 @@ public class User implements Serializable {
     public String toString() {
         return super.toString();
     }
+
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
+
 }

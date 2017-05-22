@@ -30,13 +30,13 @@ public class Hire implements Serializable {
     @Column(name = "hireTime")
     private String hireTime;
 
-    @Column(name = "startMilage")
+    @Column(name = "startMilage",columnDefinition="Decimal(10,2) default '0.00'")
     private double startMilage;
 
-    @Column(name = "endMilage")
+    @Column(name = "endMilage",columnDefinition="Decimal(10,2) default '0.00'")
     private double endMilage;
 
-    @Column(name = "amount")
+    @Column(name = "amount", columnDefinition="Decimal(10,2) default '0.00'")
     private double amount;
 
     @Column(name = "bookingSeats")
@@ -45,7 +45,7 @@ public class Hire implements Serializable {
     @Column(name = "description",length = 500)
     private String description;
 
-    @Column(name = "isFinished")
+    @Column(name = "isFinished", columnDefinition = "tinyint default false")
     private boolean isFinished;
 
     @Column(name = "status")

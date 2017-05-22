@@ -9,4 +9,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+
+    User findByUsername(String username);
+
+    /*@Query("select count(u) 0 from user u where u.username = :username")
+    boolean existsIfUsername(@Param("username") String username);*/
 }
