@@ -138,9 +138,9 @@ public class RentController {
         
         User customer = userService.getUserById(customerId);
         rent.setCustomer(customer); 
-   
+        rent.setStatus(1);
     	Rent persistrent = rentService.addRent(rent);
-        logger.debug("Added: " + persistrent);
+        logger.debug("Added: " + persistrent); 
         return new ResponseEntity<Rent>(persistrent,HttpStatus.CREATED);
     }
 

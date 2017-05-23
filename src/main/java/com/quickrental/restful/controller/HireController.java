@@ -41,7 +41,6 @@ public class HireController {
     UserService userService;
 
     //get hire
-    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Hire> getHireDetails(@PathVariable("id") Long id){
         Hire hire = hireService.getHireById(id);
@@ -126,11 +125,11 @@ public class HireController {
 
 
     //add hire
-
     @RequestMapping(value = "/add/{customerId}", method = RequestMethod.POST)
     public ResponseEntity<Hire> addHire(@RequestBody Hire hire, @PathVariable("customerId") Long customerId){
     	User customer = userService.getUserById(customerId);
     	hire.setCustomer(customer);
+    	hire.setStatus(1); 
     	System.out.println("Customer Name : "+hire.getCustomer().getFullname());
     	Hire persistHire = hireService.addHire(hire);
         logger.debug("Added: " + persistHire);
